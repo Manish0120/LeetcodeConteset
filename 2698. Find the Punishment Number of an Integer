@@ -1,0 +1,33 @@
+// Medium level Recursion based question
+
+class Solution {
+public:
+    
+    bool check(string s, int sum, int i, int n){
+        if(sum == 0 && i==n) return true;
+        if(sum != 0 && i==n) return false;
+
+        bool res = false;
+
+        for(int j=i; j<n; j++){
+            string temp = s.substr(i, j - i + 1);
+            res = res || (check(s, sum-stoi(temp), j+1, n));
+        }
+        return res;
+    }
+    
+    int punishmentNumber(int n) {
+        
+        vector <int> v(n+1);
+        v[0] = 0;
+        v[1] = 1;
+        for(int i=2; i<=n; i++){
+            string sq = to_string(i*i);
+            if(check(sq, i, 0, sq.size())){
+                v[i] = v[i-1]+stoi(sq);
+            }
+            else v[i] = v[i-1];
+        }
+        return v[n];
+    }
+};
